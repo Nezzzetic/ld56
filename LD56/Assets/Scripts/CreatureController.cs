@@ -16,6 +16,7 @@ public class CreatureController : MonoBehaviour
     public bool hitBall;
     public Vector3 forCubeDirection;
     public GameObject SleepFX;
+    public GameObject FindFX;
     public Transform DefaultParent;
 
 
@@ -28,6 +29,7 @@ public class CreatureController : MonoBehaviour
         hitBall=ball;
         StartCoroutine(PushCube());
         transform.SetParent(targetCube.GetComponent<ObjectToFollow>().objectFollower.transform);
+        
     }
 
     void Start()
@@ -82,7 +84,7 @@ public class CreatureController : MonoBehaviour
             {
                 // Stop searching and move towards the target
                 currentState = State.Moving;
-            
+                FindFX.SetActive(true);
             }
         }
     }

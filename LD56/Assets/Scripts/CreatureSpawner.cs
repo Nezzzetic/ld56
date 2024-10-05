@@ -6,6 +6,7 @@ using UnityEngine;
 public class CreatureSpawner : MonoBehaviour
 {
     public CreatureController creaturePrefab; // Drag the creature prefab here
+    public GameObject creationFX; // Drag the creature prefab here
     public LayerMask floorLayer;
 
     void Update()
@@ -25,7 +26,8 @@ public class CreatureSpawner : MonoBehaviour
                 {
                     CreatureController spawnedCreature = Instantiate(creaturePrefab, hit.point, Quaternion.identity,transform);
                     spawnedCreature.DefaultParent = transform;
-
+                    //var fx = Instantiate(creationFX, spawnedCreature.transform.position, Quaternion.identity, transform);
+                    //Destroy(fx, 1);
                 }
                 else if (hit.collider.CompareTag("Floor2"))
                 {
