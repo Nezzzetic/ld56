@@ -16,10 +16,12 @@ public class CreatureController : MonoBehaviour
     public bool hitBall;
     public Vector3 forCubeDirection;
     public GameObject SleepFX;
+    public Transform DefaultParent;
 
 
     public void StartPushState(bool ball, Vector3 direction)
     {
+        if (currentState != State.Moving) return;
         Debug.Log(ball);
         Debug.Log(direction);
         forCubeDirection = direction;
@@ -59,11 +61,28 @@ public class CreatureController : MonoBehaviour
         // If we find a valid target, transition to the Moving phase
         if (hitColliders.Length > 0)
         {
-            targetCube = hitColliders[0].GetComponent<Rigidbody>();
+            if (hitColliders.Length>1)
+            {
+                var dist = 100f;
+                var imin = 0;
+                for (int i = 0; i < hitColliders.Length; i++)
+                {
+                    var dis=Vector3.Distance(transform.position, hitColliders[i].transform.position);
+                    if (dis< dist)
+                    {
+                        imin = i;
+                        dist = dis;
+                    }
+                }
+                targetCube= hitColliders[imin].GetComponent<Rigidbody>();
+            } else { 
+                targetCube = hitColliders[0].GetComponent<Rigidbody>();
+            }
             if (targetCube != null)
             {
                 // Stop searching and move towards the target
                 currentState = State.Moving;
+            
             }
         }
     }
@@ -88,7 +107,7 @@ public class CreatureController : MonoBehaviour
             {
                 // Transition to the Pushing phase
 
-                //StartPushState(true, Vector3.zero);
+                StartPushState(true, Vector3.zero);
             }
         }
         else
@@ -125,7 +144,7 @@ public class CreatureController : MonoBehaviour
         isPushing = false;
 
         // Optional: Destroy the creature after pushing
-        transform.SetParent(transform.parent.parent);
+        transform.SetParent(DefaultParent);
         SleepFX.SetActive(true);
         //Destroy(gameObject);
     }
@@ -137,23 +156,4 @@ public class CreatureController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, searchRadius);
     }
 
-    // Determine which side of the cube the creature is closest to
-    string GetClosestSide()
-    {
-        // Vector from cube center to creature position
-        Vector3 directionToCreature = (transform.position - targetCube.transform.position).normalized;
-
-        // Compare absolute values of x, y, z components to determine the closest face
-        if (Mathf.Abs(directionToCreature.x) > Mathf.Abs(directionToCreature.y) &&
-            Mathf.Abs(directionToCreature.x) > Mathf.Abs(directionToCreature.z))
-        {
-            // Left or Right face
-            return directionToCreature.x > 0 ? "Right" : "Left";
-        }
-        else
-        {
-            // Front or Back face
-            return directionToCreature.z > 0 ? "Front" : "Back";
-        }
-    }
 }

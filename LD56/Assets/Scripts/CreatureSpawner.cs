@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class CreatureSpawner : MonoBehaviour
 {
-    public GameObject creaturePrefab; // Drag the creature prefab here
-    public Rigidbody cubeToPush; // Reference to the cube the creatures will push
+    public CreatureController creaturePrefab; // Drag the creature prefab here
     public LayerMask floorLayer;
 
     void Update()
@@ -24,10 +23,9 @@ public class CreatureSpawner : MonoBehaviour
                 // Only spawn creatures if the hit point is on the correct floor (Floor Type 1)
                 if (hit.collider.CompareTag("Floor1"))
                 {
-                    GameObject spawnedCreature = Instantiate(creaturePrefab, hit.point, Quaternion.identity);
+                    CreatureController spawnedCreature = Instantiate(creaturePrefab, hit.point, Quaternion.identity,transform);
+                    spawnedCreature.DefaultParent = transform;
 
-                    // Assign the cube to the creature's script so it can push it
-                    CreatureController creatureController = spawnedCreature.GetComponent<CreatureController>();
                 }
                 else if (hit.collider.CompareTag("Floor2"))
                 {

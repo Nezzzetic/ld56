@@ -8,7 +8,9 @@ public class ObjectToFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ObjectFollower obj = Instantiate(objectFollower);
+        obj.target = gameObject;
+        objectFollower=obj;
     }
 
     // Update is called once per frame
