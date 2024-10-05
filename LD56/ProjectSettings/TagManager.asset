@@ -6,6 +6,8 @@ TagManager:
   tags:
   - lose
   - win
+  - Floor1
+  - Floor2
   layers:
   - Default
   - TransparentFX

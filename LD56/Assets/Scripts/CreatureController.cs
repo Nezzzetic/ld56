@@ -13,6 +13,20 @@ public class CreatureController : MonoBehaviour
     private enum State { Searching, Moving, Pushing } // Define creature phases
     private State currentState = State.Searching; // Creature starts in the Searching state
     private bool isPushing = false; // Is the creature currently pushing?
+    public bool hitBall;
+    public Vector3 forCubeDirection;
+    public GameObject SleepFX;
+
+
+    public void StartPushState(bool ball, Vector3 direction)
+    {
+        Debug.Log(ball);
+        Debug.Log(direction);
+        forCubeDirection = direction;
+        hitBall=ball;
+        StartCoroutine(PushCube());
+        transform.SetParent(targetCube.GetComponent<ObjectToFollow>().objectFollower.transform);
+    }
 
     void Start()
     {
@@ -73,8 +87,8 @@ public class CreatureController : MonoBehaviour
             if (distanceToTarget < 0.3f) // Adjust the distance threshold as needed
             {
                 // Transition to the Pushing phase
-                StartCoroutine(PushCube());
-                transform.SetParent(targetCube.GetComponent<ObjectToFollow>().objectFollower.transform);
+
+                //StartPushState(true, Vector3.zero);
             }
         }
         else
@@ -98,7 +112,9 @@ public class CreatureController : MonoBehaviour
             if (isPushing && targetCube != null)
             {
                 // Apply force to the cube in the direction the creature is facing
+
                 Vector3 pushDirection = transform.forward; // Direction the creature is facing
+                if (!hitBall) pushDirection = forCubeDirection;
                 targetCube.AddForce(pushDirection * pushForce, ForceMode.Force);
             }
             pushDuration -= Time.deltaTime;
@@ -110,6 +126,7 @@ public class CreatureController : MonoBehaviour
 
         // Optional: Destroy the creature after pushing
         transform.SetParent(transform.parent.parent);
+        SleepFX.SetActive(true);
         //Destroy(gameObject);
     }
 
@@ -118,5 +135,25 @@ public class CreatureController : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, searchRadius);
+    }
+
+    // Determine which side of the cube the creature is closest to
+    string GetClosestSide()
+    {
+        // Vector from cube center to creature position
+        Vector3 directionToCreature = (transform.position - targetCube.transform.position).normalized;
+
+        // Compare absolute values of x, y, z components to determine the closest face
+        if (Mathf.Abs(directionToCreature.x) > Mathf.Abs(directionToCreature.y) &&
+            Mathf.Abs(directionToCreature.x) > Mathf.Abs(directionToCreature.z))
+        {
+            // Left or Right face
+            return directionToCreature.x > 0 ? "Right" : "Left";
+        }
+        else
+        {
+            // Front or Back face
+            return directionToCreature.z > 0 ? "Front" : "Back";
+        }
     }
 }
