@@ -9,7 +9,6 @@ public class BoxBorder : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         var a = other.GetComponent<CreatureController>();
         if (a!=null)
         {

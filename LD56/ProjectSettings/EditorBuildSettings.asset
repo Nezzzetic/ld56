@@ -5,10 +5,43 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestLevel.unity
     guid: 0e1828cb2157e304cbad3eea48ca2dd9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level2.unity
     guid: d93ccf1824bcc4c45a7281900afdf626
+  - enabled: 1
+    path: Assets/Scenes/LvlCubeSimple.unity
+    guid: 360ebf5b2fc78b54288244917f2ab00c
+  - enabled: 1
+    path: Assets/Scenes/LvlCubeObstacle.unity
+    guid: 9e03fb58e33e5c24f98e24b37d13326d
+  - enabled: 1
+    path: Assets/Scenes/LvlCubeMaze.unity
+    guid: fa788a33bd7a14b4b8f6230b8d078230
+  - enabled: 1
+    path: Assets/Scenes/LvlCubeBlockers.unity
+    guid: e1d0815ab9582054aba8ab3b9c6a5002
+  - enabled: 1
+    path: Assets/Scenes/LvlCubeZebra.unity
+    guid: 2f244c55e7e1b1d428f0a7e61fc5e138
+  - enabled: 1
+    path: Assets/Scenes/LvlBallSimple.unity
+    guid: 93faba07224394949943ccc4e2f7fc9b
+  - enabled: 1
+    path: Assets/Scenes/LvlBallObstacle.unity
+    guid: 2e92c8d6b43a63a4da272525b7efc82d
+  - enabled: 1
+    path: Assets/Scenes/LvlBallMaze.unity
+    guid: 807a2a64aa7ddf4459875c174b7b5d19
+  - enabled: 1
+    path: Assets/Scenes/LvlBallStopIt.unity
+    guid: 46e7b348a60341847bb4a6b9836f5415
+  - enabled: 1
+    path: Assets/Scenes/LvlBallShoot.unity
+    guid: 2ef5d86294a26384e982eb890373308a
+  - enabled: 1
+    path: Assets/Scenes/Final.unity
+    guid: bc7e75a50d59ba445b807687764da154
   m_configObjects: {}
