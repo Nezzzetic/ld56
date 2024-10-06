@@ -23,16 +23,7 @@ public class ZoneManager : MonoBehaviour
     {
         if (other.CompareTag("lose"))
         {
-            Debug.Log("You touched the bad zone! Actions before restart...");
-
-            // Disable the cube's movement
-            DisableCubeMovement();
-
-            // Trigger FX and play sound
-            TriggerLoseFX();
-
-            // Restart the level after a short delay
-            Invoke("RestartLevel", loseDelay);
+            OnLoseAction();
         }
         else if (other.CompareTag("win"))
         {
@@ -47,6 +38,26 @@ public class ZoneManager : MonoBehaviour
             // Show win message or transition after a short delay
             Invoke("ShowWinMessage", winDelay);
         }
+    }
+
+    public void OnLoseAction()
+    {
+        Debug.Log("You touched the bad zone! Actions before restart...");
+
+        // Disable the cube's movement
+        DisableCubeMovement();
+
+        // Trigger FX and play sound
+        TriggerLoseFX();
+
+        // Restart the level after a short delay
+        Invoke("RestartLevel", loseDelay);
+    }
+
+
+    private void Update()
+    {
+        if  (Input.GetKeyUp(KeyCode.R)) { OnLoseAction(); }
     }
 
     void DisableCubeMovement()
@@ -98,7 +109,10 @@ public class ZoneManager : MonoBehaviour
             winEffect.transform.position = cubeRigidbody.transform.position; // Set FX at cube position
             winEffect.gameObject.SetActive(true);
         }
-
+        if (LoseBlackScreen != null)
+        {
+            LoseBlackScreen.SetActive(true);
+        }
         // Play win sound effect
         if (winSound != null)
         {

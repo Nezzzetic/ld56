@@ -18,13 +18,12 @@ public class CreatureController : MonoBehaviour
     public GameObject SleepFX;
     public GameObject FindFX;
     public Transform DefaultParent;
+    public GameObject[] Eyes;
 
 
     public void StartPushState(bool ball, Vector3 direction)
     {
         if (currentState != State.Moving) return;
-        Debug.Log(ball);
-        Debug.Log(direction);
         forCubeDirection = direction;
         hitBall=ball;
         StartCoroutine(PushCube());
@@ -148,6 +147,10 @@ public class CreatureController : MonoBehaviour
         // Optional: Destroy the creature after pushing
         transform.SetParent(DefaultParent);
         SleepFX.SetActive(true);
+        foreach (var item in Eyes)
+        {
+            item.SetActive(false);
+        }
         //Destroy(gameObject);
     }
 

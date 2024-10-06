@@ -6,8 +6,10 @@ using UnityEngine;
 public class CreatureSpawner : MonoBehaviour
 {
     public CreatureController creaturePrefab; // Drag the creature prefab here
-    public GameObject creationFX; // Drag the creature prefab here
+    public GameObject creationFX;
+    public GameObject NoFX;// Drag the creature prefab here
     public LayerMask floorLayer;
+    public AudioSource[] CreateSounds;
 
     void Update()
     {
@@ -24,15 +26,18 @@ public class CreatureSpawner : MonoBehaviour
                 // Only spawn creatures if the hit point is on the correct floor (Floor Type 1)
                 if (hit.collider.CompareTag("Floor1"))
                 {
-                    CreatureController spawnedCreature = Instantiate(creaturePrefab, hit.point, Quaternion.identity,transform);
+                    CreatureController spawnedCreature = Instantiate(creaturePrefab, hit.point, Quaternion.LookRotation(Vector3.back), transform);
                     spawnedCreature.DefaultParent = transform;
-                    //var fx = Instantiate(creationFX, spawnedCreature.transform.position, Quaternion.identity, transform);
-                    //Destroy(fx, 1);
+                    var fx = Instantiate(creationFX, spawnedCreature.transform.position, Quaternion.identity, transform);
+                    Destroy(fx, 1);
+                    var i=Random.Range(0, CreateSounds.Length-1);
+                    CreateSounds[i].Play();
                 }
-                else if (hit.collider.CompareTag("Floor2"))
+                else if (hit.collider.CompareTag("Floor2")|| hit.collider.CompareTag("lose"))
                 {
                     // Do nothing, or provide feedback that the creature can't be spawned
-                    Debug.Log("Can't create creatures on this type of floor!");
+                    var fx = Instantiate(NoFX, hit.point, Quaternion.identity, transform);
+                    Destroy(fx, 1);
                 }
             }
         }
