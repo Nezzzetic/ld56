@@ -135,7 +135,7 @@ public class CreatureController : MonoBehaviour
 
                 Vector3 pushDirection = transform.forward; // Direction the creature is facing
                 if (!hitBall) pushDirection = forCubeDirection;
-                targetCube.AddForce(pushDirection * pushForce, ForceMode.Force);
+                targetCube.AddForce(pushDirection * pushForce * Time.deltaTime*400, ForceMode.Force);
             }
             pushDuration -= Time.deltaTime;
             yield return null;
